@@ -20,13 +20,13 @@
   },
   "files": {
     "requirements.txt": {
-      "checksum": "777ac3e782fbcab73a63e9707e0a0d02"
+      "checksum": "adcd44da6b00dbfc9b2d16f476543b7c"
     },
     ".gitignore": {
       "checksum": "fa0d5f3c884e5c944344a3f4751bcb6e"
     },
     "README.md": {
-      "checksum": "3ae023d8a5965488603b4825a1a11133"
+      "checksum": "77d2953a50da3acd10ae671d9214318b"
     },
     "TODO": {
       "checksum": "23240c8af47a77455c1d42d7070aa58d"
