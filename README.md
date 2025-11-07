@@ -12,3 +12,9 @@ Update requirements.txt if packages are updated/changed:
 ```bash
 poetry export -f requirements.txt --output requirements.txt
 ```
+
+With each commit update the manifest
+
+```bash
+poetry run rsconnect write-manifest shiny .
+```

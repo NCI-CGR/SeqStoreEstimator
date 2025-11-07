@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "locale": "en_US.UTF-8",
+  "metadata": {
+    "appmode": "python-shiny",
+    "entrypoint": "shiny.express.app:app_2e_py"
+  },
+  "python": {
+    "version": "3.9.7",
+    "package_manager": {
+      "name": "pip",
+      "version": "25.3",
+      "package_file": "requirements.txt"
+    }
+  },
+  "environment": {
+    "python": {
+      "requires": ">=3.9"
+    }
+  },
+  "files": {
+    "requirements.txt": {
+      "checksum": "777ac3e782fbcab73a63e9707e0a0d02"
+    },
+    ".gitignore": {
+      "checksum": "fa0d5f3c884e5c944344a3f4751bcb6e"
+    },
+    "README.md": {
+      "checksum": "3ae023d8a5965488603b4825a1a11133"
+    },
+    "TODO": {
+      "checksum": "23240c8af47a77455c1d42d7070aa58d"
+    },
+    "app.py": {
+      "checksum": "09aa9e0a3ea57e4062aaf4e3e5aa5080"
+    },
+    "poetry.lock": {
+      "checksum": "a2779c568244075af9a76df25d3ceeb5"
+    },
+    "pyproject.toml": {
+      "checksum": "23ca0091d59b147a95ea46521895da26"
+    },
+    "src/Functions.py": {
+      "checksum": "5781c90436c2142f8d4c20ee007d0f13"
+    },
+    "src/RealDatasets.py": {
+      "checksum": "1e719706bdfa1dd00e699a5ae9333a35"
+    },
+    "src/__pycache__/Functions.cpython-39.pyc": {
+      "checksum": "a7ee19a801a6d66d7a358c58766b1f5f"
+    },
+    "src/seqstoreestimator/__init__.py": {
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tests/__init__.py": {
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  }
+}
