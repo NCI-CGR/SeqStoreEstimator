@@ -1,6 +1,7 @@
 
 import plotly.graph_objs as go
-from src.RealDatasets import incremental_reads
+from src.RealDatasets import incremental_reads, bam_dragen
+import pandas as pd
 from math import log10
 
 def estimate_bam_size_from_nreads(n_reads: int,
@@ -307,3 +308,41 @@ def plot_incremental_reads():
     )
 
     return fig
+
+def calculate_bam_cram_estimates_for_dragen(
+) -> pd.DataFrame:
+    """
+    For each record in bam_dragen, estimate BAM and CRAM file sizes and compare to observed values.
+    Adds estimated_bam_bytes, estimated_cram_bytes, bam_percent_diff, cram_percent_diff to each record.
+
+    Returns
+    -------
+    List[Dict]
+        List of records with added estimates and percent differences.
+    """
+    results = []
+    for rec in bam_dragen:
+        n_reads = rec["num_reads"]
+        # Estimate BAM and CRAM sizes
+        est_bam = estimate_bam_size_from_nreads(
+            n_reads=n_reads,
+            output_format="BAM",
+        )
+        est_cram = estimate_bam_size_from_nreads(
+            n_reads=n_reads,
+            output_format="CRAM",
+        )
+        # Calculate percent differences
+        bam_percent_diff = 100 * (est_bam - rec["bam_bytes"]) / rec["bam_bytes"] if rec["bam_bytes"] else None
+        cram_percent_diff = 100 * (est_cram - rec["cram_bytes"]) / rec["cram_bytes"] if rec["cram_bytes"] else None
+
+        # Copy record and add new fields
+        new_rec = dict(rec)
+        new_rec["estimated_bam_bytes"] = est_bam
+        new_rec["estimated_cram_bytes"] = est_cram
+        new_rec["bam_percent_diff"] = bam_percent_diff
+        new_rec["cram_percent_diff"] = cram_percent_diff
+        results.append(new_rec)
+    results = pd.DataFrame(results)
+    return results
+

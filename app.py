@@ -2,7 +2,7 @@ from shiny import reactive
 from shiny.express import input, render, ui
 import shinyswatch
 from shinywidgets import render_plotly
-from src.Functions import estimate_bam_size_from_nreads,file_size_converter, plot_cummulative_cost_over_years, reads_to_bases, estimate_fastqz_size_from_nreads,plot_incremental_reads
+from src.Functions import estimate_bam_size_from_nreads,file_size_converter, plot_cummulative_cost_over_years, reads_to_bases, estimate_fastqz_size_from_nreads,plot_incremental_reads, calculate_bam_cram_estimates_for_dragen
 from faicons import icon_svg
 
 
@@ -161,6 +161,12 @@ with ui.navset_tab(id="tabs"):
             @render_plotly
             def incremental_reads_chart():
                 return plot_incremental_reads()
+        with ui.card(full_screen=True):
+            ui.h2("Estimated vs Observed BAM/CRAM Sizes [Dragen Dataset]")
+            @render.data_frame
+            def dragen_bam_cram_estimates_table():
+                df = calculate_bam_cram_estimates_for_dragen()
+                return df
  
 ## calculations
 @reactive.Calc
