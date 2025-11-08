@@ -1,5 +1,7 @@
 
 import plotly.graph_objs as go
+from src.RealDatasets import incremental_reads
+from math import log10
 
 def estimate_bam_size_from_nreads(n_reads: int,
                                   read_len: int = 150,
@@ -268,4 +270,40 @@ def plot_cummulative_cost_over_years(monthly_cost: float, years: int = 5) -> dic
         yaxis_title="Cumulative Cost (USD)",
         template="plotly_white"
     )
+    return fig
+
+
+def plot_incremental_reads():
+    """
+    Plot incremental_reads dataset with n_reads on the x-axis and all other numeric fields as separate series.
+    
+    Returns
+    -------
+    fig : plotly.graph_objs.Figure
+        Plotly figure object with multiple series.
+    """
+    # Extract x-axis
+    x = [log10(row["n_reads"]) for row in incremental_reads]
+    
+    # List of keys to plot (exclude n_reads)
+    keys = ["bam_compression_ratio"]
+    
+    fig = go.Figure()
+    for key in keys:
+        # Some values may be None, skip those
+        y = [row[key] if row[key] is not None else None for row in incremental_reads]
+        fig.add_trace(go.Scatter(
+            x=x,
+            y=y,
+            mode='lines+markers',
+            name=key
+        ))
+    
+    fig.update_layout(
+        title="Number of reads vs BAM compression ratio",
+        xaxis_title="Number of Reads (log10 scale)",
+        yaxis_title="Compression Ratio",
+        template="plotly_white"
+    )
+
     return fig
