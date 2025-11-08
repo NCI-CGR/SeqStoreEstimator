@@ -87,18 +87,25 @@ with ui.sidebar(title=ui.span(icon_svg("gears"), "Parameters")):
             max=1.0,
             value=0.25)
 
-    ui.input_select(
-        id="output_format",
-        label="Output Format",
-        choices=["BAM", "CRAM"],
-        selected="CRAM")
+        ui.input_select(
+            id="output_format",
+            label="Output Format",
+            choices=["BAM", "CRAM"],
+            selected="CRAM")
+        
+    with ui.card():
+        ui.input_numeric(
+            id="cost_per_month_per_gb",
+            label="Cost per Month per GB ($)",
+            value=0.0064,
+            step=0.0001
+        )
 
-    ui.input_numeric(
-        id="cost_per_month_per_gb",
-        label="Cost per Month per GB ($)",
-        value=0.0064,
-        step=0.0001
-    )
+        ui.input_switch(
+            id="include_fastqz_costs",
+            label="Include FASTQ.gz Storage Costs",
+            value=True
+        )
 
 with ui.layout_column_wrap(fill=True):
 
@@ -115,7 +122,7 @@ with ui.layout_column_wrap(fill=True):
                     return f"{bam_size_string}"
                 
             with ui.value_box(theme="success", showcase=icon_svg("file", style="solid")):
-                "Estimated fastq.gz File Size"
+                "Estimated FASTQ.gz File Size"
                 @render.text
                 def estimated_fastqz_size():
                     fastqz_size_string = file_size_converter(estimated_fastqz_size_bytes())
@@ -181,5 +188,8 @@ def estimated_fastqz_size_bytes() -> float:
 
 @reactive.Calc
 def estimated_monthly_cost() -> float:
-    size_in_gb = estimated_bam_size_bytes() / (1024 ** 3)
+    if input.include_fastqz_costs():
+        size_in_gb = (estimated_bam_size_bytes() + estimated_fastqz_size_bytes()) / (1024 ** 3)
+    else:
+        size_in_gb = estimated_bam_size_bytes() / (1024 ** 3)
     return size_in_gb * input.cost_per_month_per_gb()
